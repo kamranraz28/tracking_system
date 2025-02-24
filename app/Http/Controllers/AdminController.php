@@ -7,6 +7,7 @@ use App\Models\Dealer;
 use App\Models\Division;
 use App\Models\District;
 use App\Models\Retail;
+use App\Models\Sr;
 use App\Models\Tsm;
 use App\Models\Upazila;
 use App\Models\User;
@@ -283,7 +284,96 @@ class AdminController extends Controller
             return back()->with('success', 'Users uploaded successfully!');
         }
 
+        if ($type == 6) {
+            $path = $request->file('csv_file')->getRealPath();
+            $row_index = file($request->file('csv_file'), FILE_SKIP_EMPTY_LINES);
+            $data = array_map('str_getcsv', file($path));
+            $csv_data = array_slice($data, 1, count($row_index));
 
+            foreach ($csv_data as $value) {
+                $divisionName = trim($value[0]);
+                $districtName = trim($value[1]);
+                $upazilaName = trim($value[2]);
+                $name = trim($value[3]);
+                $email = trim($value[4]);
+                $officeid = trim($value[5]);
+                $contact = trim($value[6]);
+                $address = trim($value[7]);
+                $dealerId = trim($value[8]);
+                $roleName = 'sr';
+
+                // 🔹 Find IDs from respective tables
+                $division = Division::where('name', $divisionName)->first();
+                $district = District::where('name', $districtName)->first();
+                $upazila = Upazila::where('name', $upazilaName)->first();
+                $dealerUser = User::where('officeid', $dealerId)->first();
+
+                // 🔹 Create User (Check if the user already exists)
+                $user = User::firstOrCreate(
+                    [
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => Hash::make($officeid),
+                        'division_id' => $division->id,
+                        'district_id' => $district->id,
+                        'upazila_id' => $upazila->id,
+                        'officeid' => $officeid,
+                        'contact' => $contact,
+                        'address' => $address,
+                        'level' => 700,
+                    ]
+                );
+
+                // 🔹 Assign Role
+                $user->assignRole($roleName);
+
+                // 🔹 Create SR
+                Sr::create([
+                    'user_id' => $user->id,
+                    'dealer_id' => $dealerUser->dealer->id,
+                ]);
+            }
+
+            return back()->with('success', 'Users uploaded successfully!');
+        }
+
+
+    }
+
+    public function srView()
+    {
+        $srs = Sr::with('user')->get();
+        return view('report.srList', compact('srs'));
+    }
+
+    public function dealerView()
+    {
+        $dealers = Dealer::with('user')->get();
+        return view('report.dealerList', compact('dealers'));
+    }
+
+    public function retailView()
+    {
+        $retails = Retail::with('user')->get();
+        return view('report.retailList', compact('retails'));
+    }
+
+    public function tsmView()
+    {
+        $tsms = Tsm::with('user')->get();
+        return view('report.tsmList', compact('tsms'));
+    }
+
+    public function asmView()
+    {
+        $asms = Asm::with('user')->get();
+        return view('report.asmList', compact('asms'));
+    }
+
+    public function rsmView()
+    {
+        $rsms = User::role('rsm')->get();
+        return view('report.rsmList', compact('rsms'));
     }
 
 }

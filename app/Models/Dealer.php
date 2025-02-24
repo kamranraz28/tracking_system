@@ -16,4 +16,8 @@ class Dealer extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function tsm()
+    {
+        return $this->belongsTo(Tsm::class, 'tsm_id');
+    }
 }

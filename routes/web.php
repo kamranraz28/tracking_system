@@ -39,6 +39,14 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::get('/bulk-upload', [AdminController::class, 'bulkUpload'])->name('admin.bulkUpload');
     Route::post('/csv-upload', [AdminController::class, 'csvUpload'])->name('admin.csvUpload');
 
+    //Report
+    Route::get('/srs', [AdminController::class, 'srView'])->name('admin.srs');
+    Route::get('/local-dealers', [AdminController::class, 'dealerView'])->name('admin.lds');
+    Route::get('/retails', [AdminController::class, 'retailView'])->name('admin.retails');
+    Route::get('/tsm', [AdminController::class, 'tsmView'])->name('admin.tsm');
+    Route::get('/asm', [AdminController::class, 'asmView'])->name('admin.asm');
+    Route::get('/rsm', [AdminController::class, 'rsmView'])->name('admin.rsm');
+
 
 // For assigning roles to users
 Route::post('/assign-role', [RoleController::class, 'assignRole'])->name('assign.role');

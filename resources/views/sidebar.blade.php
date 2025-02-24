@@ -1,5 +1,5 @@
 <nav class="pcoded-navbar" style="background-color: {{ $sidebarColor }};">
-    <div class="navbar-wrapper" >
+    <div class="navbar-wrapper">
         <div class="navbar-content scroll-div">
             <div class="">
                 <div class="main-menu-header" style="background-color: {{ $sidebarColor }};">
@@ -11,7 +11,7 @@
                             alt="User-Profile-Image" style="width: 40px; height: 40px;">
                     @endif
 
-                    <div class="user-details" >
+                    <div class="user-details">
                         <span>{{ Auth::user()->name }}</span>
                         <div id="more-details">
                             @if (Auth::user()->getRoleNames()->isNotEmpty())
@@ -44,30 +44,30 @@
                     </a>
                 </li>
                 @can('software_settings')
-                <li class="nav-item pcoded-hasmenu">
-                    <a href="#!" class="nav-link">
-                        <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
-                        <span class="pcoded-mtext">Software Settings</span>
-                    </a>
-                    <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
-                        <li><a href="{{ route('logoChangeView') }}">Application Logo</a></li>
-                        <li><a href="{{ route('colorChangeView') }}">Application Color</a></li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="#!" class="nav-link">
+                            <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
+                            <span class="pcoded-mtext">Software Settings</span>
+                        </a>
+                        <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
+                            <li><a href="{{ route('logoChangeView') }}">Application Logo</a></li>
+                            <li><a href="{{ route('colorChangeView') }}">Application Color</a></li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
                 @endcan
                 @can('user_configuration')
-                <li class="nav-item pcoded-hasmenu">
-                    <a href="#!" class="nav-link">
-                        <span class="pcoded-micon"><i class="feather icon-layout"></i></span>
-                        <span class="pcoded-mtext">User Configuration</span>
-                    </a>
-                    <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
-                        <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
-                        <li><a href="{{ route('roles.index') }}">Roles</a></li>
-                        <li><a href="{{ route('users.index') }}">Users</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="#!" class="nav-link">
+                            <span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+                            <span class="pcoded-mtext">User Configuration</span>
+                        </a>
+                        <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
+                            <li><a href="{{ route('permissions.index') }}">Permissions</a></li>
+                            <li><a href="{{ route('roles.index') }}">Roles</a></li>
+                            <li><a href="{{ route('users.index') }}">Users</a></li>
+                        </ul>
+                    </li>
                 @endcan
                 <li class="nav-item">
                     <a href="{{ route('admin.bulkUpload') }}" class="nav-link">
@@ -75,6 +75,21 @@
                         <span class="pcoded-mtext">BulkUpload</span>
                     </a>
                 </li>
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-align-justify"></i></span>
+                        <span class="pcoded-mtext">Report</span>
+                    </a>
+                    <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
+                    <li><a href="{{ route('admin.rsm') }}">RSMs</a></li>
+                    <li><a href="{{ route('admin.asm') }}">ASMs</a></li>
+                    <li><a href="{{ route('admin.tsm') }}">TSMs</a></li>
+                        <li><a href="{{ route('admin.lds') }}">Local Dealers</a></li>
+                        <li><a href="{{ route('admin.srs') }}">SRs</a></li>
+                        <li><a href="{{ route('admin.retails') }}">Retails</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </div>

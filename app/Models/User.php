@@ -46,5 +46,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(Dealer::class, 'user_id');
     }
+    public function sr()
+    {
+        return $this->hasOne(Sr::class, 'user_id');
+    }
+    public function retail()
+    {
+        return $this->hasOne(Sr::class, 'user_id');
+    }
 
 }

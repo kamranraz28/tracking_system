@@ -19,4 +19,9 @@ class Asm extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function rsm()
+    {
+        return $this->belongsTo(User::class, 'rsm_id');
+    }
+
 }

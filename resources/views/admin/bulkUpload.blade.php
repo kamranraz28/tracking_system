@@ -38,6 +38,7 @@
                                             <option value="3">Teritory Sales Manager(TSM)</option>
                                             <option value="4">Local Dealer(LD)</option>
                                             <option value="5">Retail</option>
+                                            <option value="6">Sales Representative (SR)</option>
                                         </select>
                                     </div>
                                 </div>

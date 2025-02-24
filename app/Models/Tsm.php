@@ -18,4 +18,9 @@ class Tsm extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function asm()
+    {
+        return $this->belongsTo(Asm::class, 'asm_id');
+    }
+
 }
