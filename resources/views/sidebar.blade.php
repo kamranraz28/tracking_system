@@ -69,6 +69,12 @@
                     </ul>
                 </li>
                 @endcan
+                <li class="nav-item">
+                    <a href="{{ route('admin.bulkUpload') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-box"></i></span>
+                        <span class="pcoded-mtext">BulkUpload</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
@@ -34,6 +35,10 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     // Protected routes
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('users.dashboard');
 
+    //Bulk Upload
+    Route::get('/bulk-upload', [AdminController::class, 'bulkUpload'])->name('admin.bulkUpload');
+    Route::post('/csv-upload', [AdminController::class, 'csvUpload'])->name('admin.csvUpload');
+
 
 // For assigning roles to users
 Route::post('/assign-role', [RoleController::class, 'assignRole'])->name('assign.role');
@@ -55,7 +60,7 @@ Route::resource('permissions', PermissionController::class);
 
 Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
 Route::get('/roles-create', [RoleController::class, 'create'])->name('roles.create');
-Route::post('/roles-store', [UserController::class, 'store'])->name('roles.store');
+Route::post('/roles-store', [RoleController::class, 'store'])->name('roles.store');
 Route::get('/roles-edit/{id}', [RoleController::class, 'edit'])->name('roles.edit');
 Route::get('/roles-destroy/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 Route::put('/roles-update/{id}', [RoleController::class, 'update'])->name('roles.update');

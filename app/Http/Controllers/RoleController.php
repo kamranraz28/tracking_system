@@ -39,16 +39,29 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validate the incoming request data
         $request->validate([
             'permissions' => 'array',
             'permissions.*' => 'exists:permissions,id', // Validate that each permission ID exists
+            'name' => 'required|string|max:255', // Validate that the name is required and a string
         ]);
 
+        // Find the role by its ID
         $role = Role::findOrFail($id);
-        $role->syncPermissions($request->permissions);
-        
-        return redirect()->route('roles.index')->with('success', 'Permissions updated successfully.');
+
+        // Update the role name
+        $role->name = $request->name;
+        $role->save(); // Save the updated name
+
+        // Sync the permissions with the role
+        if ($request->has('permissions')) {
+            $role->syncPermissions($request->permissions);
+        }
+
+        // Redirect back with a success message
+        return redirect()->route('roles.index')->with('success', 'Role and permissions updated successfully.');
     }
+
 
 
     public function destroy($id)
