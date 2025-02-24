@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::get('/tsm', [AdminController::class, 'tsmView'])->name('admin.tsm');
     Route::get('/asm', [AdminController::class, 'asmView'])->name('admin.asm');
     Route::get('/rsm', [AdminController::class, 'rsmView'])->name('admin.rsm');
+    Route::get('/schedule', [ScheduleController::class, 'scheduleView'])->name('sr.schedule');
 
 
 // For assigning roles to users

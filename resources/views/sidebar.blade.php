@@ -75,15 +75,21 @@
                         <span class="pcoded-mtext">BulkUpload</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('sr.schedule') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
+                        <span class="pcoded-mtext">SR Schedule</span>
+                    </a>
+                </li>
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-align-justify"></i></span>
                         <span class="pcoded-mtext">Report</span>
                     </a>
                     <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
-                    <li><a href="{{ route('admin.rsm') }}">RSMs</a></li>
-                    <li><a href="{{ route('admin.asm') }}">ASMs</a></li>
-                    <li><a href="{{ route('admin.tsm') }}">TSMs</a></li>
+                        <li><a href="{{ route('admin.rsm') }}">RSMs</a></li>
+                        <li><a href="{{ route('admin.asm') }}">ASMs</a></li>
+                        <li><a href="{{ route('admin.tsm') }}">TSMs</a></li>
                         <li><a href="{{ route('admin.lds') }}">Local Dealers</a></li>
                         <li><a href="{{ route('admin.srs') }}">SRs</a></li>
                         <li><a href="{{ route('admin.retails') }}">Retails</a></li>
