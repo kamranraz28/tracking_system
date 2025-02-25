@@ -81,6 +81,12 @@
                         <span class="pcoded-mtext">SR Schedule</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.trackSr') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-map"></i></span>
+                        <span class="pcoded-mtext">Track SR</span>
+                    </a>
+                </li>
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-align-justify"></i></span>

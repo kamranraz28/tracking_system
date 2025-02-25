@@ -9,8 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
@@ -34,6 +35,16 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     public function asm()
     {
         return $this->hasOne(Asm::class, 'user_id');
@@ -52,7 +63,7 @@ class User extends Authenticatable
     }
     public function retail()
     {
-        return $this->hasOne(Sr::class, 'user_id');
+        return $this->hasOne(Retail::class, 'user_id');
     }
 
 }

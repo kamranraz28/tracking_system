@@ -21,4 +21,12 @@ class Sr extends Model
     {
         return $this->belongsTo(Dealer::class, 'dealer_id');
     }
+    public function schedules()
+    {
+        return $this->hasMany(Srschedule::class, 'sr_id');
+    }
+    public function location()
+    {
+        return $this->hasMany(Srlocation::class, 'sr_id');
+    }
 }

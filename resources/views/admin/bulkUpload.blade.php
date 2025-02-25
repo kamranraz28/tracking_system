@@ -5,8 +5,9 @@
 @section('content')
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="fa fa-check-circle me-2"></i>
+            <strong>Success!</strong> {{ session('success') }}
         </div>
     @endif
 
@@ -39,6 +40,8 @@
                                             <option value="4">Local Dealer(LD)</option>
                                             <option value="5">Retail</option>
                                             <option value="6">Sales Representative (SR)</option>
+                                            <option value="7">SR-Retail Visit Schedule</option>
+                                            <option value="8">Retail Location</option>
                                         </select>
                                     </div>
                                 </div>
@@ -46,7 +49,8 @@
 
                             <!-- Submit Button -->
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm" style="background-color: {{ $buttonColor }};">
+                                <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm"
+                                    style="background-color: {{ $buttonColor }};">
                                     <i class="fas fa-upload"></i> Upload File
                                 </button>
                             </div>

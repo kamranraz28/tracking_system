@@ -9,13 +9,13 @@
     <meta name="keywords" content="">
     <meta name="author" content="Phoenixcoded" />
 
-    <title>@yield('title')</title>
+    <title>Field Force Tracking</title>
 
     @include('layouts.css') <!-- Include your CSS files here -->
 </head>
 
 <body>
-  
+
 
     @include('header') <!-- Include your header here -->
 

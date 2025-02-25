@@ -7,7 +7,9 @@ use App\Models\Dealer;
 use App\Models\Division;
 use App\Models\District;
 use App\Models\Retail;
+use App\Models\Retaillocation;
 use App\Models\Sr;
+use App\Models\Srschedule;
 use App\Models\Tsm;
 use App\Models\Upazila;
 use App\Models\User;
@@ -336,6 +338,61 @@ class AdminController extends Controller
 
             return back()->with('success', 'Users uploaded successfully!');
         }
+
+        if ($type == 7) {
+            $path = $request->file('csv_file')->getRealPath();
+            $row_index = file($request->file('csv_file'), FILE_SKIP_EMPTY_LINES);
+            $data = array_map('str_getcsv', file($path));
+            $csv_data = array_slice($data, 1, count($row_index));
+
+            foreach ($csv_data as $value) {
+                $srId = trim($value[0]);
+                $retailId = trim($value[1]);
+                $visit_datetime = $value[2];
+
+                // Fetch sr and retail info using officeid
+                $srInfo = User::with('sr')->where('officeid', $srId)->first();
+                $retailInfo = User::with('retail')->where('officeid', $retailId)->first();
+
+                // Check if both sr and retail information are found
+                if ($srInfo && $retailInfo) {
+                    // Use create method to insert schedule
+                    Srschedule::create([
+                        'sr_id' => $srInfo->sr->id,
+                        'retail_id' => $retailInfo->retail->id,
+                        'visit_datetime' => $visit_datetime
+                    ]);
+                }
+            }
+
+            return back()->with('success', 'Schedules created successfully!');
+        }
+
+        if ($type == 8) {
+            $path = $request->file('csv_file')->getRealPath();
+            $row_index = file($request->file('csv_file'), FILE_SKIP_EMPTY_LINES);
+            $data = array_map('str_getcsv', file($path));
+            $csv_data = array_slice($data, 1, count($row_index));
+
+            foreach ($csv_data as $value) {
+                $retailId = trim($value[0]);
+                $lat = trim($value[1]);
+                $lon = trim($value[2]);
+
+                $retailInfo = User::with('retail')->where('officeid', $retailId)->first();
+
+                if($retailInfo){
+                    Retaillocation::create([
+                        'retail_id' => $retailInfo->retail->id,
+                        'lat' => $lat,
+                        'lon' => $lon
+                    ]);
+                }
+            }
+
+            return back()->with('success', 'Retail locations uploaded successfully!');
+        }
+
 
 
     }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\SrController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/test', [LoginController::class, 'test']);
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('/settings', [LoginController::class, 'settings'])->middleware(['auth:api']);
+    Route::get('/colors', [LoginController::class, 'colors']);
+});
+
+
+
+//SR Panel Start
+
+Route::group(['prefix' => 'sr'], function () {
+    Route::post('/location-store', [SrController::class, 'locationStore'])->middleware(['auth:api']);
+
+});
+//SR Panel End

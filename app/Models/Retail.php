@@ -21,4 +21,12 @@ class Retail extends Model
     {
         return $this->belongsTo(Dealer::class, 'dealer_id');
     }
+    public function schedules()
+    {
+        return $this->hasMany(Srschedule::class, 'retail_id');
+    }
+    public function location()
+    {
+        return $this->hasOne(Retaillocation::class, 'retail_id');
+    }
 }

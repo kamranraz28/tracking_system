@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SrController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
@@ -47,7 +48,23 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::get('/tsm', [AdminController::class, 'tsmView'])->name('admin.tsm');
     Route::get('/asm', [AdminController::class, 'asmView'])->name('admin.asm');
     Route::get('/rsm', [AdminController::class, 'rsmView'])->name('admin.rsm');
-    Route::get('/schedule', [ScheduleController::class, 'scheduleView'])->name('sr.schedule');
+
+    //Schedule Start
+    Route::get('/schedule-list', [ScheduleController::class, 'scheduleList'])->name('sr.schedule');
+    Route::get('/schedule-create', [ScheduleController::class, 'scheduleCreate'])->name('sr.scheduleCreate');
+    Route::post('/schedule-store', [ScheduleController::class, 'scheduleStore'])->name('sr.scheduleStore');
+    Route::post('/schedule-destroy/{id?}', [ScheduleController::class, 'scheduleDelete'])->name('sr.scheduleDelete');
+    Route::get('/schedule-edit/{id?}', [ScheduleController::class, 'scheduleEdit'])->name('sr.scheduleEdit');
+    Route::post('/schedule-update/{id?}', [ScheduleController::class, 'scheduleUpdate'])->name('sr.scheduleUpdate');
+    Route::get('/map-view/retail/{id?}', [ScheduleController::class, 'mapView'])->name('retail.mapView');
+
+    //Schedule End
+
+    //Sr Track Start
+    Route::get('/track-sr', [SrController::class, 'trackSr'])->name('admin.trackSr');
+    Route::post('/track-sr-store', [SrController::class, 'trackSrStore'])->name('admin.trackSrStore');
+    Route::post('/track-sr-map-view', [SrController::class, 'trackSrMap'])->name('admin.trackSrMap');
+
 
 
 // For assigning roles to users
