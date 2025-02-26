@@ -29,4 +29,8 @@ class Retail extends Model
     {
         return $this->hasOne(Retaillocation::class, 'retail_id');
     }
+    public function attendance()
+    {
+        return $this->hasMany(Retail::class, 'retail_id');
+    }
 }

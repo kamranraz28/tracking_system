@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Attendance;
 use App\Models\Dealer;
 use App\Models\Retail;
 use App\Models\Sr;
@@ -58,7 +59,17 @@ class UserController extends Controller
         // Get upcoming schedules count (Strictly after today)
         $upcomingSchedule = Srschedule::whereDate('visit_datetime', '>', $today)->count();
 
-        return view('dashboard', compact('upcomingSchedule', 'closeSchedule', 'totalSchedule', 'todaySchedule', 'userTotal', 'location', 'srTotal', 'retailTotal', 'dealerTotal'));
+        $attendances = Attendance::all();
+
+        $attends = $attendances->count();
+        $today = $attendances->where('created_at', '>=', Carbon::today())->count();
+        $thisWeek = $attendances->where('created_at', '>=', Carbon::now()->startOfWeek())->count();
+        $thisMonth = $attendances->where('created_at', '>=', Carbon::now()->startOfMonth())->count();
+        $thisYear = $attendances->where('created_at', '>=', Carbon::now()->startOfYear())->count(); // Follow the same pattern
+
+
+
+        return view('dashboard', compact('thisYear','thisMonth','thisWeek','today','attends','upcomingSchedule', 'closeSchedule', 'totalSchedule', 'todaySchedule', 'userTotal', 'location', 'srTotal', 'retailTotal', 'dealerTotal'));
     }
 
 

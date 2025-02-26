@@ -17,7 +17,7 @@
             <h4 class="mb-4 text-primary"><i class="fa fa-calendar-check me-2"></i> Create SR Schedule</h4>
             <hr>
 
-            <form method="POST" action="{{ route('sr.scheduleStore') }}" enctype="multipart/form-data" autocomplete="off">
+            <form method="POST" action="{{ route('scheduleStore') }}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
 
                 <div class="form-group">

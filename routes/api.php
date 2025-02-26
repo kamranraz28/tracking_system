@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::group(['prefix' => 'sr'], function () {
     Route::post('/location-store', [SrController::class, 'locationStore'])->middleware(['auth:api']);
+    Route::post('/attendance-store', [SrController::class, 'attendanceStore'])->middleware(['auth:api']);
 
 });
 //SR Panel End

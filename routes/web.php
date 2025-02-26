@@ -50,20 +50,22 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::get('/rsm', [AdminController::class, 'rsmView'])->name('admin.rsm');
 
     //Schedule Start
-    Route::get('/schedule-list', [ScheduleController::class, 'scheduleList'])->name('sr.schedule');
-    Route::get('/schedule-create', [ScheduleController::class, 'scheduleCreate'])->name('sr.scheduleCreate');
-    Route::post('/schedule-store', [ScheduleController::class, 'scheduleStore'])->name('sr.scheduleStore');
-    Route::post('/schedule-destroy/{id?}', [ScheduleController::class, 'scheduleDelete'])->name('sr.scheduleDelete');
-    Route::get('/schedule-edit/{id?}', [ScheduleController::class, 'scheduleEdit'])->name('sr.scheduleEdit');
-    Route::post('/schedule-update/{id?}', [ScheduleController::class, 'scheduleUpdate'])->name('sr.scheduleUpdate');
+    Route::get('/schedules', [ScheduleController::class, 'schedules'])->name('schedules');
+    Route::post('/schedule-search', [ScheduleController::class, 'scheduleSearch'])->name('scheduleSearch');
+    Route::get('/schedule-create', [ScheduleController::class, 'scheduleCreate'])->name('scheduleCreate');
+    Route::post('/schedule-store', [ScheduleController::class, 'scheduleStore'])->name('scheduleStore');
+    Route::get('/schedule-edit/{id?}', [ScheduleController::class, 'scheduleEdit'])->name('scheduleEdit');
+    Route::post('/schedule-update/{id?}', [ScheduleController::class, 'scheduleUpdate'])->name('scheduleUpdate');
+    Route::post('/schedule-destroy/{id?}', [ScheduleController::class, 'scheduleDelete'])->name('scheduleDelete');
     Route::get('/map-view/retail/{id?}', [ScheduleController::class, 'mapView'])->name('retail.mapView');
 
     //Schedule End
 
     //Sr Track Start
-    Route::get('/track-sr', [SrController::class, 'trackSr'])->name('admin.trackSr');
+    Route::get('/track-field-force', [SrController::class, 'trackSr'])->name('admin.trackSr');
     Route::post('/track-sr-store', [SrController::class, 'trackSrStore'])->name('admin.trackSrStore');
     Route::post('/track-sr-map-view', [SrController::class, 'trackSrMap'])->name('admin.trackSrMap');
+    Route::get('/field-force-attendance', [SrController::class, 'fieldForceAttendance'])->name('admin.fieldForceAttendance');
 
 
 

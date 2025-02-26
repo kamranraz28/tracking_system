@@ -6,21 +6,92 @@ use App\Models\Retail;
 use App\Models\Retaillocation;
 use App\Models\Sr;
 use App\Models\Srschedule;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Session;
 
 class ScheduleController extends Controller
 {
     //
 
-    public function scheduleList()
+    public function schedules()
     {
-        $schedules = Srschedule::with('sr', 'retail')->get();
-        return view('schedule.index', compact('schedules'));
+        // Get the session values for sr_id and time
+        $srId = Session::get('sr_id');
+        $time = Session::get('time');
+
+        // Get the current authenticated user and dealer ID
+        $user = Auth::user();
+
+        $scheduleQuery = Srschedule::with('sr', 'retail');
+        $srQuery = Sr::with('user', 'dealer');
+
+        if ($user->hasRole('dealer')) {
+            $dealer_id = $user->dealer->id;
+            $scheduleQuery = $scheduleQuery->whereHas('sr', function ($query) use ($dealer_id) {
+                $query->where('dealer_id', $dealer_id);
+            });
+            $srQuery = $srQuery->where('dealer_id', $dealer_id);
+        } elseif ($user->hasRole('field_force')) {
+            $sr_id = $user->sr->id;
+            $scheduleQuery = $scheduleQuery->where('sr_id', $sr_id);
+            $srQuery = $srQuery->where('dealer_id', $sr_id);
+        }
+
+        // Apply the time-based filters if provided
+        if ($time) {
+            $today = Carbon::today();
+
+            switch ($time) {
+                case '1': // Today's Schedules
+                    $scheduleQuery->whereDate('visit_datetime', $today);
+                    break;
+                case '2': // Next 2 Days Schedules
+                    $scheduleQuery->whereBetween('visit_datetime', [$today, $today->copy()->addDays(2)]);
+                    break;
+                case '3': // Next 7 Days Schedules
+                    $scheduleQuery->whereBetween('visit_datetime', [$today, $today->copy()->addDays(7)]);
+                    break;
+                case '4': // Next 15 Days Schedules
+                    $scheduleQuery->whereBetween('visit_datetime', [$today, $today->copy()->addDays(15)]);
+                    break;
+                case '5':
+                    // No additional filter for '5', so nothing here
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Apply sr_id filter if provided
+        if ($srId) {
+            $scheduleQuery->where('sr_id', $srId);
+        }
+
+        $schedules = $scheduleQuery->get();
+        $srs = $srQuery->get();
+
+        // Return the view with schedules and SRs
+        return view('schedule.index', compact('schedules', 'srs'));
     }
+
+    public function scheduleSearch(Request $request)
+    {
+        $sr_id = $request->input('sr_id');
+        $time = $request->input('time');
+
+        Session::put(['sr_id' => $sr_id, 'time' => $time]);
+
+        return redirect()->route('schedules');
+    }
+
     public function scheduleCreate()
     {
-        $srs = Sr::with('user')->get();
-        $retails = Retail::with('user')->get();
+        $user = Auth::user();
+        $dealer_id = $user->dealer->id;
+        $srs = Sr::with('user')->where('dealer_id', $dealer_id)->get();
+        $retails = Retail::with('user')->where('dealer_id', $dealer_id)->get();
         return view('schedule.create', compact('srs', 'retails'));
     }
 
@@ -32,7 +103,7 @@ class ScheduleController extends Controller
             'visit_datetime' => $request->visit_datetime,
         ]);
 
-        return redirect()->route('sr.schedule')->with('success', ' Schedule created successfully!');
+        return redirect()->route('dealer.schedule')->with('success', ' Schedule created successfully!');
     }
 
     public function scheduleDelete($id)
@@ -64,7 +135,7 @@ class ScheduleController extends Controller
             'visit_datetime' => $request->visit_datetime,
         ]);
 
-        return redirect()->route('sr.schedule')->with('success', 'Schedule updated successfully!');
+        return redirect()->route('schedules')->with('success', 'Schedule updated successfully!');
     }
 
     public function mapView($id)
@@ -84,5 +155,6 @@ class ScheduleController extends Controller
             'id' => $location->retail->user->officeid ?? '',
         ]);
     }
+
 
 }

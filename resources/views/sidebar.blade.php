@@ -69,24 +69,36 @@
                         </ul>
                     </li>
                 @endcan
+                @can('bulk_upload_navbar')
                 <li class="nav-item">
                     <a href="{{ route('admin.bulkUpload') }}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-box"></i></span>
                         <span class="pcoded-mtext">BulkUpload</span>
                     </a>
                 </li>
+                @endcan
+
                 <li class="nav-item">
-                    <a href="{{ route('sr.schedule') }}" class="nav-link">
+                    <a href="{{ route('schedules') }}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
-                        <span class="pcoded-mtext">SR Schedule</span>
+                        <span class="pcoded-mtext">Field Force Schedule</span>
                     </a>
                 </li>
+                @can('track_field_force_navbar')
                 <li class="nav-item">
                     <a href="{{ route('admin.trackSr') }}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-map"></i></span>
-                        <span class="pcoded-mtext">Track SR</span>
+                        <span class="pcoded-mtext">Track Field Force</span>
                     </a>
                 </li>
+                @endcan
+                <li class="nav-item">
+                    <a href="{{ route('admin.fieldForceAttendance') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-map"></i></span>
+                        <span class="pcoded-mtext">Field Force Attendance</span>
+                    </a>
+                </li>
+                @can('report_navbar')
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-align-justify"></i></span>
@@ -97,10 +109,11 @@
                         <li><a href="{{ route('admin.asm') }}">ASMs</a></li>
                         <li><a href="{{ route('admin.tsm') }}">TSMs</a></li>
                         <li><a href="{{ route('admin.lds') }}">Local Dealers</a></li>
-                        <li><a href="{{ route('admin.srs') }}">SRs</a></li>
+                        <li><a href="{{ route('admin.srs') }}">Field Forces</a></li>
                         <li><a href="{{ route('admin.retails') }}">Retails</a></li>
                     </ul>
                 </li>
+                @endcan
 
             </ul>
         </div>

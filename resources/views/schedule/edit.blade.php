@@ -16,7 +16,7 @@
         <h4 class="mb-4 text-primary"><i class="fa fa-calendar-check me-2"></i> Edit SR Schedule</h4>
         <hr>
 
-        <form method="POST" action="{{ route('sr.scheduleUpdate', $schedule->id) }}" enctype="multipart/form-data" autocomplete="off">
+        <form method="POST" action="{{ route('scheduleUpdate', $schedule->id) }}" enctype="multipart/form-data" autocomplete="off">
             @csrf
 
             <!-- SR Selection -->
@@ -66,7 +66,7 @@
 
             <!-- Submit Button -->
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm">
+                <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm" style="background-color: {{ $buttonColor }};">
                     <i class="fas fa-save"></i> Update Schedule
                 </button>
             </div>

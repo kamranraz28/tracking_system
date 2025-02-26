@@ -29,4 +29,8 @@ class Sr extends Model
     {
         return $this->hasMany(Srlocation::class, 'sr_id');
     }
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class, 'sr_id');
+    }
 }

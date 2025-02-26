@@ -46,7 +46,7 @@
                     <div class="col-sm-6 card-body">
                         <div class="row">
                             <div class="col-sm-4">
-                                <i class="icon feather icon-briefcase text-c-green mb-1 d-block"></i>
+                                <i class="icon feather icon-briefcase text-c-blue mb-1 d-block"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
                                 <h5>{{ $srTotal }}</h5>
@@ -59,7 +59,7 @@
                     <div class="col-sm-6 card-body br">
                         <div class="row">
                             <div class="col-sm-4">
-                            <i class="fas fa-truck text-c-orange mb-1 d-block"></i>
+                            <i class="fas fa-truck text-c-blue mb-1 d-block"></i>
 
                             </div>
                             <div class="col-sm-8 text-md-center">
@@ -71,7 +71,7 @@
                     <div class="col-sm-6 card-body">
                         <div class="row">
                             <div class="col-sm-4">
-                                <i class="icon feather icon-shopping-cart text-c-red mb-1 d-block"></i>
+                                <i class="icon feather icon-shopping-cart text-c-blue mb-1 d-block"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
                                 <h5>{{ $retailTotal }}</h5>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-sm-9">
                         <h4>{{ $location }}</h4>
-                        <h6>Tracked Location</h6>
+                        <h6>Tracked Locations</h6>
                     </div>
                 </div>
             </div>
@@ -104,22 +104,22 @@
                     <div class="col-sm-6 card-body br">
                         <div class="row">
                             <div class="col-sm-4">
-                                <i class="icon feather icon-share-2 text-c-blue mb-1 d-block"></i>
+                            <i class="fas fa-calendar-day text-c-blue mb-1 d-block"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
-                                <h5>1000</h5>
-                                <span>Shares</span>
+                                <h5>{{ $today }}</h5>
+                                <span>Today</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 card-body">
                         <div class="row">
                             <div class="col-sm-4">
-                                <i class="icon feather icon-wifi text-c-blue mb-1 d-block"></i>
+                            <i class="fas fa-calendar text-c-blue mb-1 d-block"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
-                                <h5>600</h5>
-                                <span>Network</span>
+                                <h5>{{ $thisWeek }}</h5>
+                                <span>This Week</span>
                             </div>
                         </div>
                     </div>
@@ -131,19 +131,19 @@
                                 <i class="icon feather icon-rotate-ccw text-c-blue mb-1 d-block"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
-                                <h5>3550</h5>
-                                <span>Returns</span>
+                                <h5>{{ $thisMonth }}</h5>
+                                <span>This Month</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6 card-body">
                         <div class="row">
                             <div class="col-sm-4">
-                                <i class="icon feather icon-shopping-cart text-c-blue mb-1 d-blockz"></i>
+                            <i class="fas fa-clipboard-list text-c-blue"></i>
                             </div>
                             <div class="col-sm-8 text-md-center">
-                                <h5>100%</h5>
-                                <span>Order</span>
+                                <h5>{{ $thisYear }}</h5>
+                                <span>This Year</span>
                             </div>
                         </div>
                     </div>
@@ -153,11 +153,12 @@
             <div class="card flat-card widget-purple-card">
                 <div class="row-table">
                     <div class="col-sm-3 card-body">
-                        <i class="fas fa-trophy"></i>
+                    <!-- <i class="fas fa-clipboard-list"></i> -->
+                    <i class="fas fa-user-check"></i>
                     </div>
                     <div class="col-sm-9">
-                        <h4>17</h4>
-                        <h6>Achievements</h6>
+                        <h4>{{ $attends }}</h4>
+                        <h6>Attendances</h6>
                     </div>
                 </div>
             </div>

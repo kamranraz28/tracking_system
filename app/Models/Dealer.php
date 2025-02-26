@@ -20,4 +20,9 @@ class Dealer extends Model
     {
         return $this->belongsTo(Tsm::class, 'tsm_id');
     }
+
+    public function sr()
+    {
+        return $this->hasMany(Sr::class, 'dealer_id');
+    }
 }
