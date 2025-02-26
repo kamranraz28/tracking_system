@@ -39,3 +39,10 @@
         });
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        flatpickr("#date_picker", {
+            dateFormat: "Y-m-d",
+        });
+    });
+</script>

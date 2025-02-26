@@ -29,14 +29,14 @@ class ScheduleController extends Controller
 
         if ($user->hasRole('dealer')) {
             $dealer_id = $user->dealer->id;
-            $scheduleQuery = $scheduleQuery->whereHas('sr', function ($query) use ($dealer_id) {
+            $scheduleQuery->whereHas('sr', function ($query) use ($dealer_id) {
                 $query->where('dealer_id', $dealer_id);
             });
-            $srQuery = $srQuery->where('dealer_id', $dealer_id);
+            $srQuery->where('dealer_id', $dealer_id);
         } elseif ($user->hasRole('field_force')) {
             $sr_id = $user->sr->id;
-            $scheduleQuery = $scheduleQuery->where('sr_id', $sr_id);
-            $srQuery = $srQuery->where('dealer_id', $sr_id);
+            $scheduleQuery->where('sr_id', $sr_id);
+            $srQuery->where('dealer_id', $sr_id);
         }
 
         // Apply the time-based filters if provided

@@ -26,14 +26,14 @@ class SrController extends Controller
 
         if ($user->hasRole('dealer')){
             $dealer_id = $user->dealer->id;
-            $locationQuery = $locationQuery->whereHas('sr', function ($query) use ($dealer_id) {
+            $locationQuery->whereHas('sr', function ($query) use ($dealer_id) {
                 $query->where('dealer_id', $dealer_id);
             });
-            $srQuery = $srQuery->where('dealer_id', $dealer_id);
+            $srQuery->where('dealer_id', $dealer_id);
         }
 
         if($sr_id){
-            $locationQuery = $locationQuery->where('sr_id',$sr_id);
+            $locationQuery->where('sr_id',$sr_id);
         }
 
         if($time){
@@ -42,23 +42,23 @@ class SrController extends Controller
             switch($time){
                 case '1' :
                     $currentDate = now()->toDateString();
-                    $locationQuery = $locationQuery->whereDate('created_at',$currentDate);
+                    $locationQuery->whereDate('created_at',$currentDate);
                     break;
                 case '2' :
                     $startDate = now()->subDays(1)->startOfDay();
-                    $locationQuery = $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
+                    $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
                     break;
                 case '3' :
                     $startDate = now()->subDays(6)->startOfDay();
-                    $locationQuery = $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
+                    $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
                     break;
                 case '4' :
                     $startDate = now()->subDays(14)->startOfDay();
-                    $locationQuery = $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
+                    $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
                     break;
                 case '5' :
                     $startDate = now()->subDays(29)->startOfDay();
-                    $locationQuery = $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
+                    $locationQuery->whereBetween('created_at', [$startDate, $endDate]);
                     break;
                 default :
                     $locationQuery = [];
@@ -141,21 +141,54 @@ class SrController extends Controller
     {
         $user = Auth::user();
 
+        $srId = Session::get('sr_id');
+        $from_date = Session::get('from_date');
+        $to_date = Session::get('to_date');
+
         $attendanceQuery = Attendance::with('sr','retail');
+        $srQuery = Sr::with('user');
 
         if ($user->hasRole('dealer')){
             $dealer_id = $user->dealer->id;
-            $attendanceQuery = $attendanceQuery->whereHas('sr', function ($query) use ($dealer_id) {
+            $attendanceQuery->whereHas('sr', function ($query) use ($dealer_id) {
                 $query->where('dealer_id', $dealer_id);
             });
+            $srQuery = $srQuery->where('dealer_id', $dealer_id);
         }elseif(($user->hasRole('field_force'))){
             $sr_id = $user->sr->id;
-            $attendanceQuery = $attendanceQuery->where('sr_id',$sr_id);
+            $attendanceQuery->where('sr_id',$sr_id);
+            $srQuery = $srQuery->where('sr_id', $sr_id);
+        }
+
+        if($srId){
+            $attendanceQuery->where('sr_id',$srId);
+        }
+        if (!empty($from_date)) {
+            $attendanceQuery->whereDate('created_at', '>=', Carbon::parse($from_date));
+        }
+        if (!empty($to_date)) {
+            $attendanceQuery->whereDate('created_at', '<=', Carbon::parse($to_date));
         }
 
         $attendances = $attendanceQuery->get();
+        $srs = $srQuery->get();
 
-        return view('sr.attendance', compact('attendances'));
+        return view('sr.attendance', compact('attendances','srs'));
+    }
+
+    public function fieldForceAttendanceStore(Request $request)
+    {
+        $sr_id = $request->sr_id;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
+        Session::put([
+            'sr_id' => $sr_id,
+            'from_date' => $from_date,
+            'to_date' => $to_date
+        ]);
+
+        return redirect()->route('admin.fieldForceAttendance');
     }
 
 
