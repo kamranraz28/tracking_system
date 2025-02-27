@@ -23,5 +23,9 @@ class Srschedule extends Model
     {
         return $this->belongsTo(Retail::class, 'retail_id');
     }
+    public function attendance()
+    {
+        return $this->hasOne(Attendance::class, 'schedule_id');
+    }
 
 }

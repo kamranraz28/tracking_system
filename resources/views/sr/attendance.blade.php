@@ -6,17 +6,16 @@
 
     <div class="common-container">
 
-
         <div class="card shadow-lg p-4">
             <h4 class="mb-4 text-primary"><i class="fa fa-calendar-check me-2"></i> Field Force Attendance</h4>
             <hr>
+
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
                     <i class="fa fa-check-circle me-2"></i>
                     <strong>Success!</strong> {{ session('success') }}
                 </div>
             @endif
-
 
             <form method="POST" action="{{ route('fieldForceAttendanceStore') }}" enctype="multipart/form-data" autocomplete="off">
                 @csrf
@@ -37,34 +36,28 @@
 
                 <div class="form-group">
                     <div class="mb-3">
-                        <div class="form-group1">
-                            <label for="from_date">From Date:</label>
-                            <input type="text" name="from_date" class="form-control" id="date_picker"
-                                placeholder="Select Date">
-                        </div>
+                        <label for="from_date">From Date:</label>
+                        <input type="text" name="from_date" class="form-control date_picker" id="date_picker" placeholder="Select Date">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="mb-3">
-                        <div class="form-group1">
-                            <label for="to_date">To Date:</label>
-                            <input type="text" name="to_date" class="form-control" id="date_picker"
-                                placeholder="Select Date">
-                        </div>
+                        <label for="to_date">To Date:</label>
+                        <input type="text" name="to_date" class="form-control date_picker" id="date_picker" placeholder="Select Date">
                     </div>
                 </div>
 
                 <!-- Buttons Row -->
                 <div class="d-flex justify-content-between">
-                    <!-- Track Now Button -->
                     <button type="submit" class="btn btn-primary fw-bold py-2 shadow-sm"
-                        style="background-color: {{ $buttonColor }};">
+                            style="background-color: {{ $buttonColor }};">
                         <i class="fas fa-upload"></i> Track Now
                     </button>
                 </div>
             </form>
         </div>
+
         <br>
 
         <table id="example" class="display" style="width:100%">
@@ -77,27 +70,45 @@
                     <th>Retail ID</th>
                     <th>Attendance Time</th>
                     <th>Attendance Image</th>
+                    <th>Attendance Location</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($attendances as $attendance)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $attendance->sr->user->name ?? ''}}</td>
-                        <td>{{ $attendance->sr->user->officeid ?? ''}}</td>
-                        <td>{{ $attendance->retail->user->name ?? ''}}</td>
-                        <td>{{ $attendance->retail->user->officeid ?? ''}}</td>
-                        <td>{{ $attendance->time ?? ''}}</td>
+                        <td>{{ $attendance->sr->user->name ?? '' }}</td>
+                        <td>{{ $attendance->sr->user->officeid ?? '' }}</td>
+                        <td>{{ $attendance->retail->user->name ?? '' }}</td>
+                        <td>{{ $attendance->retail->user->officeid ?? '' }}</td>
+                        <td>{{ $attendance->time ?? '' }}</td>
                         <td>
-                            <img src="{{ asset('uploads/' . $attendance->image) }}" alt="Attendance Image" width="50">
+                            <img src="{{ asset('uploads/' . $attendance->image) }}" alt="Attendance Image" width="50"
+                                 class="attendance-img">
                         </td>
-
-
+                        <td>
+                            <a href="{{ route('attendance.mapView', $attendance->id) }}" target="_blank"
+                               class="btn btn-sm btn-warning" style="background-color: {{ $buttonColor }};">Map View</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
     </div>
+
+    <!-- Custom CSS -->
+    <style>
+        .attendance-img {
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .attendance-img:hover {
+            transform: scale(4);
+            z-index: 999;
+            position: relative;
+        }
+    </style>
 
 @endsection

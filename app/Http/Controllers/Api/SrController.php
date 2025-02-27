@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Srlocation;
+use App\Models\Srschedule;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SrController extends Controller
@@ -22,7 +24,7 @@ class SrController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Sr location stored successfully.'
-        ],200);
+        ], 200);
     }
 
     public function attendanceStore(Request $request)
@@ -35,11 +37,27 @@ class SrController extends Controller
                 'message' => 'User not authenticated.'
             ], 401);
         }
+
+        // Get the SR ID for the authenticated user
         $sr_id = $user->sr->id;
+
+        // Fetch the schedule for the SR and retail on the same date as the input time
+        $schedule = Srschedule::where('sr_id', $sr_id)
+            ->where('retail_id', $request->retail_id)
+            ->whereDate('visit_datetime', Carbon::parse($request->time)->toDateString())
+            ->first();
+
+        // Check if schedule exists
+        if (!$schedule) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Schedule not found for the provided date and retail.'
+            ], 404);
+        }
 
         // Validate the incoming request
         $request->validate([
-            'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
         ]);
 
         // Check if the file exists in the request
@@ -53,7 +71,7 @@ class SrController extends Controller
             // Move the file to the public/uploads directory
             $file->move(public_path('uploads'), $fileName);
 
-            // Save the file name in the database
+            // Create the attendance record
             Attendance::create([
                 'image' => $fileName,
                 'sr_id' => $sr_id,
@@ -61,6 +79,7 @@ class SrController extends Controller
                 'lon' => $request->input('lon'),
                 'time' => $request->input('time'),
                 'retail_id' => $request->input('retail_id'),
+                'schedule_id' => $schedule->id ?? '',
             ]);
 
             // Return a success response
@@ -74,9 +93,11 @@ class SrController extends Controller
             ], 200);
         }
 
+        // If no file is uploaded
         return response()->json([
-            'success' => false,
+            'status' => 'error',
             'message' => 'No file uploaded',
         ], 400);
     }
+
 }

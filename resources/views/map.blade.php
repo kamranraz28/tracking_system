@@ -14,7 +14,7 @@
 </head>
 <body>
     <h3>Location Map</h3>
-    <h2>Retail: {{ $name }} ({{ $id }})</h2>
+    <h2>{{ $name }} ({{ $id }})</h2>
 
     <div id="map"></div>
 

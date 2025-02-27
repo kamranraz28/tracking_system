@@ -67,6 +67,10 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::post('/track-sr-map-view', [SrController::class, 'trackSrMap'])->name('admin.trackSrMap');
     Route::get('/field-force-attendance', [SrController::class, 'fieldForceAttendance'])->name('admin.fieldForceAttendance');
     Route::post('/field-force-attendance-store', [SrController::class, 'fieldForceAttendanceStore'])->name('fieldForceAttendanceStore');
+    Route::get('/attendance-location/{id?}', [SrController::class, 'attendanceLocation'])->name('attendance.mapView');
+
+    Route::get('/attendance-monitoring', [SrController::class, 'attendanceMonitoring'])->name('attendanceMonitoring');
+    Route::post('/attendance-monitoring-filter', [SrController::class, 'monitoringSearch'])->name('monitoringSearch');
 
 
 

@@ -91,13 +91,22 @@
                         <span class="pcoded-mtext">Track Field Force</span>
                     </a>
                 </li>
-                @endcan
+
                 <li class="nav-item">
                     <a href="{{ route('admin.fieldForceAttendance') }}" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-map"></i></span>
                         <span class="pcoded-mtext">Field Force Attendance</span>
                     </a>
                 </li>
+                @endcan
+                @can('track_field_force_navbar')
+                <li class="nav-item">
+                    <a href="{{ route('attendanceMonitoring') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
+                        <span class="pcoded-mtext">Attendance Monitoring</span>
+                    </a>
+                </li>
+                @endcan
                 @can('report_navbar')
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link">

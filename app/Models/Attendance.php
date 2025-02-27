@@ -12,6 +12,7 @@ class Attendance extends Model
     protected $fillable = [
         'sr_id',
         'retail_id',
+        'schedule_id',
         'time',
         'lat',
         'lon',
@@ -25,5 +26,9 @@ class Attendance extends Model
     public function retail()
     {
         return $this->belongsTo(Retail::class, 'retail_id');
+    }
+    public function schedule()
+    {
+        return $this->belongsTo(Srschedule::class, 'schedule_id');
     }
 }
